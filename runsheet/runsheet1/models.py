@@ -14,3 +14,4 @@ class DepChamber(models.Model):
     S1GasBox=models.CharField(max_length=200)
     S2GasBox=models.CharField(max_length=200)
     #including name, discription, serial numbers etc. Should be changed to customized class, which contains name, description, and serial number.
+    S1UpperBP=models.CharField(max_length=200)
