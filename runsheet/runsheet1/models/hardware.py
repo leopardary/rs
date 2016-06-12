@@ -31,7 +31,7 @@ class ChamParts(models.Model):
         ('BT', 'Bottom Tuner'),
         ('OTH', 'Other'),
     )
-    name=models.CharField(max_length=3, choices=Parts)
+    category=models.CharField(max_length=3, choices=Parts)
     discription=models.CharField(max_length=300)
     serial_number=models.CharField(max_length=50)
     entry_time=models.DateTimeField(default=timezone.localtime(timezone.now()))
@@ -39,84 +39,108 @@ class ChamParts(models.Model):
         abstract=True
 
 class FacePlate(ChamParts):
+    name=models.CharField(max_length=20,default="BKM FacePlate")
     def save(self, *args, **kwargs):
-        if self.name=='FP':
+        if self.category=='FP':
             self.entry_time=timezone.now()
             super(FacePlate,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'FP\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'FP\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class UpperBlockerPlate(ChamParts):
+    name=models.CharField(max_length=20,default="BKM UpperBlockerPlate")
     def save(self, *args, **kwargs):
-        if self.name=='UBP':
+        if self.category=='UBP':
             self.entry_time=timezone.now()
             super(UpperBlockerPlate,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'UBP\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'UBP\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class LowerBlockerPlate(ChamParts):
+    name=models.CharField(max_length=20,default="BKM LowerBlockerPlate")
     def save(self, *args, **kwargs):
-        if self.name=='LBP':
+        if self.category=='LBP':
             self.entry_time=timezone.now()
             super(LowerBlockerPlate,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'LBP\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'LBP\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class PedestalHeater(ChamParts):
+    name=models.CharField(max_length=20,default="BKM PedestalHeater")
     def save(self, *args, **kwargs):
-        if self.name=='HTR':
+        if self.category=='HTR':
             self.entry_time=timezone.now()
             super(PedestalHeater,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'HTR\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'HTR\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class GasBox(ChamParts):
+    name=models.CharField(max_length=20,default="BKM GasBox")
     def save(self, *args, **kwargs):
-        if self.name=='GB':
+        if self.category=='GB':
             self.entry_time=timezone.now()
             super(GasBox,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'GB\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'GB\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class TopTuner(ChamParts):
+    name=models.CharField(max_length=20,default="BKM TopTuner") #this is the shown name of the part, eg. CIP TopTuner
     def save(self, *args, **kwargs):
-        if self.name=='TT':
+        if self.category=='TT':
             self.entry_time=timezone.now()
             super(TopTuner,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'TT\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'TT\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class BottomTuner(ChamParts):
+    name=models.CharField(max_length=20,default="BKM BottomTuner")
     def save(self, *args, **kwargs):
-        if self.name=='BT':
+        if self.category=='BT':
             self.entry_time=timezone.now()
             super(BottomTuner,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'BT\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'BT\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class OtherParts(ChamParts):
+    name=models.CharField(max_length=20,default="BKM OtherParts")
     def save(self, *args, **kwargs):
-        if self.name=='OTH':
+        if self.category=='OTH':
             self.entry_time=timezone.now()
             super(OtherParts,self).save(*args,**kwargs)
 
         else:
-            print("Wrong Parts name. Should be \'OTH\', instead of \'%s\'." % self.name)
+            print("Wrong Parts category. Should be \'OTH\', instead of \'%s\'." % self.category)
             return
+    def __str__(self):
+        return self.name
 
 class DepChamber(models.Model):
     #one chamber is only one side, eg. GT7A1 and GT7A2 are seperate instances.
@@ -124,13 +148,13 @@ class DepChamber(models.Model):
     configure_start_time=models.DateTimeField('Configuration starting time', default=timezone.now())
     configure_end_time=models.DateTimeField('Configuration end time',blank=True,null=True)
     #the HW configuration change time
-    fp=models.OneToOneField(FacePlate, on_delete=models.CASCADE,verbose_name="the installed FacePlate") # the relation is 1-to-1, as one chamber has only one of each part, and each part
-    ubp=models.OneToOneField(UpperBlockerPlate, on_delete=models.CASCADE,verbose_name="the installed Upper BlockerPlate")
-    lbp=models.OneToOneField(LowerBlockerPlate, on_delete=models.CASCADE,verbose_name="the installed Lower BlockerPlate")
-    htr=models.OneToOneField(PedestalHeater,on_delete=models.CASCADE,verbose_name="the installed PedestalHeater")
-    gb=models.OneToOneField(GasBox,on_delete=models.CASCADE,verbose_name="the installed GasBox")
-    tt=models.OneToOneField(TopTuner,on_delete=models.CASCADE,verbose_name="the installed TopTuner")
-    bt=models.OneToOneField(BottomTuner,on_delete=models.CASCADE,verbose_name="the installed BottomTuner")
+    fp=models.ForeignKey(FacePlate, on_delete=models.CASCADE,verbose_name="the installed FacePlate") # the relation is 1-to-1, as one chamber has only one of each part, and each part
+    ubp=models.ForeignKey(UpperBlockerPlate, on_delete=models.CASCADE,verbose_name="the installed Upper BlockerPlate")
+    lbp=models.ForeignKey(LowerBlockerPlate, on_delete=models.CASCADE,verbose_name="the installed Lower BlockerPlate")
+    htr=models.ForeignKey(PedestalHeater,on_delete=models.CASCADE,verbose_name="the installed PedestalHeater")
+    gb=models.ForeignKey(GasBox,on_delete=models.CASCADE,verbose_name="the installed GasBox")
+    tt=models.ForeignKey(TopTuner,on_delete=models.CASCADE,verbose_name="the installed TopTuner")
+    bt=models.ForeignKey(BottomTuner,on_delete=models.CASCADE,verbose_name="the installed BottomTuner")
     #one chamber can have multiple other parts, so this is a foreign key relationship.
     oth=models.ForeignKey(OtherParts,on_delete=models.CASCADE,verbose_name="the installed other parts")
 
@@ -162,6 +186,7 @@ class DepChamber(models.Model):
             self.save_first_record()
     def __str__(self):
         return self.name
+
 
 
 
