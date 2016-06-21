@@ -35,6 +35,7 @@ class ChamParts(models.Model):
     discription=models.CharField(max_length=300)
     serial_number=models.CharField(max_length=50)
     entry_time=models.DateTimeField(default=timezone.localtime(timezone.now()))
+    #same as models.DateTimeField(auto_now=True,auto_now_add=False)
     class Meta:
         abstract=True
 

@@ -1,9 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Foup
 from django.template import loader
+from .models import DepChamber
+from .models import FacePlate
+from .models import UpperBlockerPlate
+from .models import LowerBlockerPlate
+from .models import PedestalHeater
+from .models import TopTuner
+from .models import BottomTuner
+from .models import OtherParts
+from .models import GasBox
 
 # Create your views here.
+
+def HW_home(request):
+	#dc1=get_object_or_404(DepChamber, id=1)
+	depCham_list=DepChamber.objects.all()
+	context={
+		"title": "List",
+		"object_list":depCham_list
+	}
+	return render(request,"index.html",context)
+    #return HttpResponse("HW home page.")
 
 def index(request):
     foup_list=Foup.objects.all()

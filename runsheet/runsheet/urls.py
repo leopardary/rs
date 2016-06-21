@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^hardware/', include("runsheet1.urls")),
+    #pattern: url(r'^hardware/$', "<app_name>.views.<function_name>"),
+    #url(r'^hardware/',"hardware.views.HW_home")
 ]
