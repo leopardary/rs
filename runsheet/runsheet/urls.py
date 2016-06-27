@@ -18,7 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^hardware/', include("runsheet1.urls")),
+    url(r'^hardware/', include("hardware.urls")),
+    url(r'^foup/',include("foup.urls")),
     #pattern: url(r'^hardware/$', "<app_name>.views.<function_name>"),
     #url(r'^hardware/',"hardware.views.HW_home")
 ]

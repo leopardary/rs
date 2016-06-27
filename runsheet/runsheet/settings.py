@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'runsheet1',
+    #'runsheet1',
+    'hardware',
+    'foup',
 ]
 
 MIDDLEWARE_CLASSES = [
