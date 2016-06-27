@@ -1,0 +1,19 @@
+<!--DOCTYPE HTML -->
+
+	<html>
+	<body>
+
+	<h1>{{title}} is working!</h1>
+	
+	{% for obj in object_list %}
+	
+	Name:{{obj.name}}<br/>
+	Start time:	{{obj.configure_start_time}}<br/>
+	End time: {{obj.configure_end_time}}<br/>
+	<br/>
+	
+	{% endfor %}
+	
+	</body>
+
+	</html>
